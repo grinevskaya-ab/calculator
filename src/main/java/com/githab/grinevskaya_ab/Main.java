@@ -41,11 +41,11 @@ public class Main {
         }
 
         if (code_res == 0)
-            make_operation_int(Double.parseDouble(str_num.toString()), sign); // для операци над последним числом
+            make_operation(Double.parseDouble(str_num.toString()), sign); // для операци над последним числом
         return code_res;
     }
 
-    static void make_operation_int(double num, char sign) {
+    static void make_operation(double num, char sign) {
         switch (sign) {
             case '-':
                 result -= num;
