@@ -29,7 +29,7 @@ public class Main {
             if (c == ' ' || c == '=') continue;
 
             if (signs.contains(c + "")) {
-                make_operation_int(Double.parseDouble(str_num.toString()), sign); //Integer.parseInt
+                make_operation(Double.parseDouble(str_num.toString()), sign); //Integer.parseInt
                 str_num = new StringBuilder("0");
                 sign = c;
             } else if ((c >= '0' && c <= '9') || c == '.') {
