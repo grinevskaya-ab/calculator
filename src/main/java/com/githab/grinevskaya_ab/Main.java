@@ -7,53 +7,62 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        String str = "";
+        String str;
         do {
             System.out.print("Введите выражение: ");
             str = input.nextLine();
         } while (Objects.equals(str, ""));
-        System.out.print("Результат:" + calc_str(str));
+        input.close(); // закрытие сканера
+        int code_res = calc_str(str);
+        System.out.print(code_res == 0 ? "Результат: " + result : "Невалидное значение");
     }
 
+    static double result = 0;
 
-    static double calc_str(String str) {
-        String str_num = "";
+
+    static int calc_str(String str) {
+        StringBuilder str_num = new StringBuilder();
         String signs = "+-*/%";
-        double result = 0;
         char sign = ' '; //текущий знак
+        int code_res = 0;
 
         for (char c : str.toCharArray()) {
             if (c == ' ' || c == '=') continue;
 
             if (signs.contains(c + "")) {
-                result = make_operation_int(result, Double.parseDouble(str_num), sign); //Integer.parseInt
-                str_num = "";
+                make_operation_int(Double.parseDouble(str_num.toString()), sign); //Integer.parseInt
+                str_num = new StringBuilder();
                 sign = c;
-            } else
-                str_num += c;
+            } else if ((c >= '0' && c <= '9') || c == '.') {
+                str_num.append(c);
+            } else {
+                code_res = 1;
+                break;
+            }
         }
 
-        return result = make_operation_int(result, Double.parseDouble(str_num), sign);
-    }
-
-    static double make_operation_int(double res, double num, char sign) {
-        switch (sign) {
-            case '-':
-                res -= num;
-                break;
-            case '%':
-                res %= num;
-                break;
-            case '/':
-                res /= num;
-                break;
-            case '*':
-                res *= num;
-                break;
-            default:
-                res += num;
-                break;
+            if (code_res == 0)
+                make_operation_int(Double.parseDouble(str_num.toString()), sign); // для операии над последним числом
+            return code_res;
         }
-        return res;
+
+        static void make_operation_int ( double num, char sign){
+            switch (sign) {
+                case '-':
+                    result -= num;
+                    break;
+                case '%':
+                    result %= num;
+                    break;
+                case '/':
+                    result /= num;
+                    break;
+                case '*':
+                    result *= num;
+                    break;
+                default:
+                    result += num;
+                    break;
+            }
+        }
     }
-}
