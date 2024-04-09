@@ -1,6 +1,5 @@
 package com.githab.grinevskaya_ab;
 
-
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -13,16 +12,16 @@ public class Main {
             str = input.nextLine();
         } while (Objects.equals(str, ""));
         input.close(); // закрытие сканера
+
         int code_res = calc_str(str);
-        System.out.print(code_res == 0 ? "Результат: " + result : "Невалидное значение");
+        System.out.println(code_res == 0 ? "Результат: " + result : "Невалидное значение");
     }
 
     static double result = 0;
 
-
     static int calc_str(String str) {
-        StringBuilder str_num = new StringBuilder();
-        String signs = "+-*/%";
+        StringBuilder str_num = new StringBuilder("0"); //  init 0 если первая цифра < 0
+        String signs = "*/%+-";
         char sign = ' '; //текущий знак
         int code_res = 0;
 
@@ -31,7 +30,7 @@ public class Main {
 
             if (signs.contains(c + "")) {
                 make_operation_int(Double.parseDouble(str_num.toString()), sign); //Integer.parseInt
-                str_num = new StringBuilder();
+                str_num = new StringBuilder("0");
                 sign = c;
             } else if ((c >= '0' && c <= '9') || c == '.') {
                 str_num.append(c);
@@ -41,28 +40,28 @@ public class Main {
             }
         }
 
-            if (code_res == 0)
-                make_operation_int(Double.parseDouble(str_num.toString()), sign); // для операии над последним числом
-            return code_res;
-        }
+        if (code_res == 0)
+            make_operation_int(Double.parseDouble(str_num.toString()), sign); // для операци над последним числом
+        return code_res;
+    }
 
-        static void make_operation_int ( double num, char sign){
-            switch (sign) {
-                case '-':
-                    result -= num;
-                    break;
-                case '%':
-                    result %= num;
-                    break;
-                case '/':
-                    result /= num;
-                    break;
-                case '*':
-                    result *= num;
-                    break;
-                default:
-                    result += num;
-                    break;
-            }
+    static void make_operation_int(double num, char sign) {
+        switch (sign) {
+            case '-':
+                result -= num;
+                break;
+            case '%':
+                result %= num;
+                break;
+            case '/':
+                result /= num;
+                break;
+            case '*':
+                result *= num;
+                break;
+            default:
+                result += num;
+                break;
         }
     }
+}
