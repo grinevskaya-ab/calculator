@@ -1,17 +1,59 @@
 package com.githab.grinevskaya_ab;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+import java.util.Objects;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner input = new Scanner(System.in);
+        String str = "";
+        do {
+            System.out.print("Введите выражение: ");
+            str = input.nextLine();
+        } while (Objects.equals(str, ""));
+        System.out.print("Результат:" + calc_str(str));
+    }
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+
+    static double calc_str(String str) {
+        String str_num = "";
+        String signs = "+-*/%";
+        double result = 0;
+        char sign = ' '; //текущий знак
+
+        for (char c : str.toCharArray()) {
+            if (c == ' ' || c == '=') continue;
+
+            if (signs.contains(c + "")) {
+                result = make_operation_int(result, Double.parseDouble(str_num), sign); //Integer.parseInt
+                str_num = "";
+                sign = c;
+            } else
+                str_num += c;
         }
+
+        return result = make_operation_int(result, Double.parseDouble(str_num), sign);
+    }
+
+    static double make_operation_int(double res, double num, char sign) {
+        switch (sign) {
+            case '-':
+                res -= num;
+                break;
+            case '%':
+                res %= num;
+                break;
+            case '/':
+                res /= num;
+                break;
+            case '*':
+                res *= num;
+                break;
+            default:
+                res += num;
+                break;
+        }
+        return res;
     }
 }
